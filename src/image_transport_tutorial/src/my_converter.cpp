@@ -46,13 +46,19 @@ public:
 
     // Draw an example circle on the video stream
     if (cv_ptr->image.rows > 60 && cv_ptr->image.cols > 60)
+    {
       cv::circle(cv_ptr->image, cv::Point(50, 50), 10, CV_RGB(255,0,0));
+      }
+    cv::cvtColor(cv_ptr->image, cv_ptr->image, CV_BGR2GRAY); //20190624
+    cv::threshold(cv_ptr->image, cv_ptr->image, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU); //閾値を自
+      
 
     // Update GUI Window
     cv::imshow(OPENCV_WINDOW, cv_ptr->image);
     cv::waitKey(3);
 
     // Output modified video stream
+     cv::cvtColor(cv_ptr->image, cv_ptr->image, CV_GRAY2BGR); //20190624
     image_pub_.publish(cv_ptr->toImageMsg());
   }
 };
